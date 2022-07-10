@@ -7,7 +7,7 @@
 namespace Skytable\Response;
 
 
-class Response
+class Response implements ResponseInterface
 {
     protected array $response;
 

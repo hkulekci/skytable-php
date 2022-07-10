@@ -9,6 +9,7 @@ namespace Skytable;
 use Skytable\Response\BinaryStringResponse;
 use Skytable\Response\CodeResponse;
 use Skytable\Response\IntResponse;
+use Skytable\Response\JsonResponse;
 use Skytable\Response\Response;
 use Skytable\Response\StringResponse;
 
@@ -28,35 +29,18 @@ class ResponseParser
     {
         $responses = [];
         $lines = explode("\n", $this->response);
-        if (isset($lines[0]) && strpos($lines[0], '*') === 0) {
+        if (isset($lines[0]) && str_starts_with($lines[0], '*')) {
             $numberOfActions = (int) substr($lines[0], 1);
             for ($i = 1; $i < $numberOfActions * 2; $i += 2) {
-                if (str_starts_with($lines[$i], ':')) {
-                    $responses[] = new IntResponse([
-                        $lines[$i], $lines[$i + 1]
-                    ]);
-                } elseif (str_starts_with($lines[$i], '+')) {
-                    $responses[] = new StringResponse([
-                        $lines[$i], $lines[$i + 1]
-                    ]);
-                } elseif (str_starts_with($lines[$i], '!')) {
-                    $responses[] = new CodeResponse([
-                        $lines[$i], $lines[$i + 1]
-                    ]);
-                } elseif (str_starts_with($lines[$i], '?')) {
-                    $responses[] = new BinaryStringResponse([
-                        $lines[$i], $lines[$i + 1]
-                    ]);
-                } elseif (str_starts_with($lines[$i], '$')) {
-                    $responses[] = new StringResponse([
-                        $lines[$i], $lines[$i + 1]
-                    ]);
-                } else {
-                    $responses[] = new Response([
-                        $lines[$i], $lines[$i + 1]
-                    ]);
-                }
-
+                $data = [$lines[$i], $lines[$i + 1]];
+                $responses[] = match ($lines[$i][0]) {
+                    ':' => new IntResponse($data),
+                    '+' => new StringResponse($data),
+                    '!' => new CodeResponse($data),
+                    '?' => new BinaryStringResponse($data),
+                    '$' => new JsonResponse($data),
+                    default => new Response($data),
+                };
             }
         }
 

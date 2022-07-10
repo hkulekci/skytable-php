@@ -3,7 +3,6 @@
  * @since     Jul 2022
  * @author    Haydar KULEKCI <haydarkulekci@gmail.com>
  */
-
 namespace Skytable;
 
 class Connection
@@ -24,9 +23,14 @@ class Connection
         }
     }
 
-    public function write(string $payload): array
+    /**
+     * @param ActionsBuilder $payload
+     * @return array         array of Response
+     */
+    public function execute(ActionsBuilder $payload): array
     {
-        $result = socket_write($this->socket, $payload, strlen($payload));
+        $input = $payload->payload();
+        $result = socket_write($this->socket, $input, strlen($input));
         if ($result === false) {
             throw new \RuntimeException("socket_write() failed.\nReason: ($result) " . socket_strerror(socket_last_error($this->socket)) . "\n");
         }
