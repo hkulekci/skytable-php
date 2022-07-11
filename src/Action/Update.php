@@ -8,19 +8,10 @@
 
 namespace Skytable\Action;
 
-class Update
+class Update extends Action
 {
-    protected string $key;
-    protected string $value;
-
     public function __construct($key, $value)
     {
-        $this->key = $key;
-        $this->value = $value;
-    }
-
-    public function query(): Action
-    {
-        return new Action(['update', $this->key, $this->value]);
+        $this->elements = ['update', $key, $value];
     }
 }

@@ -8,10 +8,10 @@
 
 namespace Skytable\Action;
 
-class Dbsize
+class Dbsize extends Action
 {
-    public function query(): Action
+    public function __construct()
     {
-        return new Action(['dbsize']);
+        $this->elements = ['dbsize'];
     }
 }

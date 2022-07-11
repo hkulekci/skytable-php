@@ -8,19 +8,10 @@
 
 namespace Skytable\Action;
 
-class Set
+class Set extends Action
 {
-    protected string $key;
-    protected string $value;
-
     public function __construct($key, $value)
     {
-        $this->key = $key;
-        $this->value = $value;
-    }
-
-    public function query(): Action
-    {
-        return new Action(['set', $this->key, $this->value]);
+        $this->elements = ['set', $key, $value];
     }
 }

@@ -1,0 +1,20 @@
+<phpunit bootstrap="./tests/bootstrap.php"
+         stopOnError="true"
+         stopOnFailure="true"
+         processIsolation="true"
+         backupGlobals="false"
+         backupStaticAttributes="false"
+         verbose="true"
+         colors="true">
+    <testsuites>
+        <testsuite name="SkytableTest"><directory>./tests/SkytableTest/</directory></testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory suffix=".php">src</directory>
+            <exclude>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>

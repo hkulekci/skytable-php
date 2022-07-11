@@ -9,17 +9,10 @@ namespace Skytable\Action\Auth;
 
 use Skytable\Action\Action;
 
-class Claim
+class Claim extends Action
 {
-    protected string $originKey;
-
     public function __construct($originKey)
     {
-        $this->originKey = $originKey;
-    }
-
-    public function query(): Action
-    {
-        return new Action(['auth', 'claim', $this->originKey]);
+        $this->elements = ['auth', 'claim', $originKey];
     }
 }

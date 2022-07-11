@@ -6,14 +6,9 @@
 
 namespace Skytable\Action;
 
-class Action
+class Action implements ActionInterface
 {
     protected array $elements;
-
-    public function __construct($elements)
-    {
-        $this->elements = $elements;
-    }
 
     public function getPayload(): string
     {

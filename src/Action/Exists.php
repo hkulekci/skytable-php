@@ -8,17 +8,10 @@
 
 namespace Skytable\Action;
 
-class Exists
+class Exists extends Action
 {
-    protected array $keys;
-
     public function __construct(array $keys)
     {
-        $this->keys = $keys;
-    }
-
-    public function query(): Action
-    {
-        return new Action(['exists', ...$this->keys]);
+        $this->elements = ['exists', ...$keys];
     }
 }

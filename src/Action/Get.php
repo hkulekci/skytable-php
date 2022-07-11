@@ -1,5 +1,4 @@
 <?php
-
 /**
  *
  * @since     Jul 2022
@@ -8,16 +7,10 @@
 
 namespace Skytable\Action;
 
-class Get
+class Get extends Action
 {
-    protected string $key;
     public function __construct($key)
     {
-        $this->key = $key;
-    }
-
-    public function query(): Action
-    {
-        return new Action(['get', $this->key]);
+        $this->elements = ['get', $key];
     }
 }

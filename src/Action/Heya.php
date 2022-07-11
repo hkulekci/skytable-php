@@ -8,10 +8,10 @@
 
 namespace Skytable\Action;
 
-class Heya
+class Heya extends Action
 {
-    public function query(): Action
+    public function __construct()
     {
-        return new Action(['heya']);
+        $this->elements = ['heya'];
     }
 }

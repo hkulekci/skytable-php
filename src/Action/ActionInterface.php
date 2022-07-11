@@ -1,16 +1,12 @@
 <?php
 /**
- *
  * @since     Jul 2022
  * @author    Haydar KULEKCI <haydarkulekci@gmail.com>
  */
 
 namespace Skytable\Action;
 
-class Whereami extends Action
+interface ActionInterface
 {
-    public function __construct()
-    {
-        $this->elements = ['whereami'];
-    }
+    public function getPayload(): string;
 }

@@ -8,16 +8,10 @@
 
 namespace Skytable\Action;
 
-class Del
+class Del extends Action
 {
-    protected string $key;
     public function __construct($key)
     {
-        $this->key = $key;
-    }
-
-    public function query(): Action
-    {
-        return new Action(['del', $this->key]);
+        $this->elements = ['del', $key];
     }
 }

@@ -6,13 +6,13 @@
 
 namespace Skytable;
 
-use Skytable\Action\Action;
+use Skytable\Action\ActionInterface;
 
 class ActionsBuilder
 {
     protected array $actions;
 
-    public function addQuery(Action $action): static
+    public function addQuery(ActionInterface $action): static
     {
         $this->actions[] = $action;
 
