@@ -9,10 +9,10 @@ namespace Skytable\Action\Create;
 
 use Skytable\Action\Action;
 
-class Keyspace extends Action
+class Table extends Action
 {
-    public function __construct($name)
+    public function __construct($name, $keyMap)
     {
-        $this->elements = ['create', 'keyspace', $name];
+        $this->elements = ['create', 'table', $name, $keyMap];
     }
 }
