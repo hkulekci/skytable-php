@@ -16,8 +16,14 @@ class Action implements ActionInterface
             '~' . count($this->elements) . "\n",
         ];
         foreach ($this->elements as $element) {
-            $payload[] = strlen($element) . "\n";
-            $payload[] = $element . "\n";
+            if (is_array($element)) {
+
+            } else if (is_string($element)) {
+                $payload[] = strlen($element) . "\n";
+                $payload[] = $element . "\n";
+            } else {
+                throw new \Exception('Invalid element type');
+            }
         }
 
         return implode('', $payload);
