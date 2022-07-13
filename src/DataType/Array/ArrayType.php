@@ -48,6 +48,11 @@ class ArrayType implements TypeInterface
         }
     }
 
+    public static function getSymbol(): string
+    {
+        return self::SYMBOL;
+    }
+
     public function getValue(): array
     {
         return $this->value;

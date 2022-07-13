@@ -9,4 +9,8 @@ use Skytable\DataType\Primitive\StringType;
 
 class DefaultType extends StringType
 {
+    public static function getSymbol(): string
+    {
+        return self::SYMBOL;
+    }
 }

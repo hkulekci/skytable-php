@@ -9,11 +9,9 @@ namespace Skytable\DataType;
 interface TypeInterface
 {
     /**
-     * Data Type Symbol
-     *
-     * @const string
+     * @return string
      */
-    public const SYMBOL = '';
+    public static function getSymbol(): string;
 
     /**
      * Length of the data type

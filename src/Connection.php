@@ -29,9 +29,9 @@ class Connection
 
     /**
      * @param ActionsBuilder $builder
-     * @return array         array of Response
+     * @return Response array of Response
      */
-    public function execute(ActionsBuilder $builder): array
+    public function execute(ActionsBuilder $builder): Response
     {
         $input = $builder->payload();
         $result = socket_write($this->socket, $input, strlen($input));
@@ -40,11 +40,11 @@ class Connection
         }
 
         $bytes = socket_recv($this->socket, $out, 2048, MSG_EOF);
-        if (false !== $bytes) {
-            return (new ResponseParser($out))->parse();
+        if (false === $bytes) {
+            throw new \RuntimeException("socket_recv() failed; reason: " . socket_strerror(socket_last_error($this->socket)) . "\n");
         }
 
-        throw new \RuntimeException("socket_recv() failed; reason: " . socket_strerror(socket_last_error($this->socket)) . "\n");
+        return new Response($out);
     }
 
     public function __destruct()

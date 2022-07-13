@@ -14,7 +14,7 @@ class Table extends Action
 {
     public function __construct(string $entity = null)
     {
-        $this->elements = ['inspect', 'keyspace'];
+        $this->elements = ['inspect', 'table'];
         if ($entity) {
             $this->elements[] = $entity;
         }

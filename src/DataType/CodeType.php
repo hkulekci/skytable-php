@@ -11,36 +11,53 @@ class CodeType implements TypeInterface
 
     /**
      * @var string
-     * 0	Okay	The server succeded in carrying out some operation
-     * 1	Nil	The client asked for a non-existent object
-     * 2	Overwrite Error	The client tried to overwrite data
-     * 3	Action Error	The action didn't expect the arguments sent
-     * 4	Packet Error	The packet contains invalid data
-     * 5	Server Error	An error occurred on the server side
-     * 6	Other error	Some other error response
-     * 7	Wrong type error	The client sent the wrong type
-     * 8	Unknown data type	The client sent an unknown data type
-     * 9	Encoding error	The client sent a badly encoded query
-     * 10	Bad credentials	The authn credentials are invalid
-     * 11	Authn realm error	The current user is not allowed to perform the action
-     * Error String	Other error with description	Some other error occurred. See this document
      */
+    private string $code;
     private string $value;
-    private string $length;
 
     public function __construct(string $meta)
     {
-        $this->length = $meta;
+        $this->code = $meta;
     }
 
     public function getLength(): int
     {
-        return $this->length;
+        return 1;
     }
 
-    public function getValue(): string
+    public function getValue(): ?bool
     {
-        return $this->value;
+        /**
+         * 0	Okay	The server succeded in carrying out some operation
+         * 1	Nil	The client asked for a non-existent object
+         * 2	Overwrite Error	The client tried to overwrite data
+         * 3	Action Error	The action didn't expect the arguments sent
+         * 4	Packet Error	The packet contains invalid data
+         * 5	Server Error	An error occurred on the server side
+         * 6	Other error	Some other error response
+         * 7	Wrong type error	The client sent the wrong type
+         * 8	Unknown data type	The client sent an unknown data type
+         * 9	Encoding error	The client sent a badly encoded query
+         * 10	Bad credentials	The authn credentials are invalid
+         * 11	Authn realm error	The current user is not allowed to perform the action
+         * Error String	Other error with description	Some other error occurred. See this document
+         */
+        return match ((int)$this->code) {
+            0 => true,
+            1 => null,
+            2 => throw new \RuntimeException('Overwrite error'),
+            3 => throw new \RuntimeException('Action error'),
+            4 => throw new \RuntimeException('Packet error'),
+            5 => throw new \RuntimeException('Server error'),
+            6 => throw new \RuntimeException('Other error'),
+            7 => throw new \RuntimeException('Wrong type error'),
+            8 => throw new \RuntimeException('Unknown data type'),
+            9 => throw new \RuntimeException('Encoding error'),
+            10 => throw new \RuntimeException('Bad credentials'),
+            11 => throw new \RuntimeException('Authn realm error'),
+            19 => throw new \RuntimeException('Container not found'),
+            default => throw new \RuntimeException('Unexpected match value'),
+        };
     }
 
     public function pull(&$lines): void
@@ -48,8 +65,13 @@ class CodeType implements TypeInterface
         $this->value = array_shift($lines);
     }
 
+    public static function getSymbol(): string
+    {
+        return self::SYMBOL;
+    }
+
     public function __toString(): string
     {
-        return __CLASS__ . ' : ' . self::SYMBOL . $this->length . ' - ' . $this->getValue();
+        return __CLASS__ . ' : ' . self::SYMBOL . $this->getLength() . ' - ' . $this->getValue();
     }
 }

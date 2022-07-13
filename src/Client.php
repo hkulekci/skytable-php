@@ -9,82 +9,91 @@ namespace Skytable;
  * @Client is the client class of Skytable.
  *
  * @link \Skytable\Action\Dbsize
- * @method dbsize()
+ * @method dbsize(): TypeInterface
  *
  * @link \Skytable\Action\Del
- * @method del(string $key)
+ * @method del(string $key): TypeInterface
  *
  * @link \Skytable\Action\Exists
- * @method exists(array $keys)
+ * @method exists(array $keys): TypeInterface
  *
  * @link \Skytable\Action\Flushdb
- * @method flushdb()
+ * @method flushdb(): TypeInterface
  *
  * @link \Skytable\Action\Get
- * @method get(string $key)
+ * @method get(string $key): TypeInterface
  *
  * @link \Skytable\Action\Heya
- * @method heya()
+ * @method heya(): TypeInterface
  *
  * @link \Skytable\Action\Lget
- * @method lget(string $key)
+ * @method lget(string $key): TypeInterface
  *
  * @link \Skytable\Action\Lset
- * @method lset(string $key, array $values)
+ * @method lset(string $key, array $values): TypeInterface
  *
  * @link \Skytable\Action\Mget
- * @method mget(array $keys)
+ * @method mget(array $keys): TypeInterface
  *
  * @link \Skytable\Action\Mpop
- * @method mpop(array $keys)
+ * @method mpop(array $keys): TypeInterface
  *
  * @link \Skytable\Action\Pop
- * @method pop(string $key)
+ * @method pop(string $key): TypeInterface
  *
  * @link \Skytable\Action\Select
- * @method select(string $name)
+ * @method select(string $name): TypeInterface
  *
  * @link \Skytable\Action\Set
- * @method set(string $key, $value)
+ * @method set(string $key, $value): TypeInterface
  *
  * @link \Skytable\Action\Update
- * @method update(string $key, $value)
+ * @method update(string $key, $value): TypeInterface
  *
  * @link \Skytable\Action\Whereami
- * @method whereami()
+ * @method whereami(): TypeInterface
  *
  * @link \Skytable\Action\Auth\Claim
- * @method auth_claim(string $originKey)
+ * @method auth_claim(string $originKey): TypeInterface
  *
  * @link \Skytable\Action\Auth\Claim
- * @method auth_login(string $username, string $token)
+ * @method auth_login(string $username, string $token): TypeInterface
  *
  * @link \Skytable\Action\Create\Keyspace
- * @method create_keyspace(string $name)
+ * @method create_keyspace(string $name): TypeInterface
  *
  * @link \Skytable\Action\Create\Table
- * @method create_table(string $name)
+ * @method create_table(string $name): TypeInterface
  *
  * @link \Skytable\Action\Drop\Keyspace
- * @method drop_keyspace(string $name)
+ * @method drop_keyspace(string $name): TypeInterface
  *
  * @link \Skytable\Action\Lmod\Pop
- * @method lmod_pop(string $key)
+ * @method lmod_pop(string $key): TypeInterface
  *
  * @link \Skytable\Action\Lmod\Push
- * @method lmod_push(string $key, string $value)
+ * @method lmod_push(string $key, string $value): TypeInterface
  *
  * @link \Skytable\Action\Lmod\Rpop
- * @method lmod_rpop(string $key)
+ * @method lmod_rpop(string $key): TypeInterface
  *
  * @link \Skytable\Action\Sys\Info\Protocol
- * @method sys_info_protocol()
+ * @method sys_info_protocol(): TypeInterface
  *
  * @link \Skytable\Action\Sys\Info\Protover
- * @method sys_info_protover()
+ * @method sys_info_protover(): TypeInterface
  *
  * @link \Skytable\Action\Sys\Info\Version
- * @method sys_info_version()
+ * @method sys_info_version(): TypeInterface
+ *
+ * @link \Skytable\Action\Inspect\Keyspaces
+ * @method inspect_keyspaces(): TypeInterface
+ *
+ * @link \Skytable\Action\Inspect\Keyspace
+ * @method inspect_keyspace(string $entity = null): TypeInterface
+ *
+ * @link \Skytable\Action\Inspect\Table
+ * @method inspect_table(string $entity = null): TypeInterface
  */
 class Client
 {
@@ -95,7 +104,7 @@ class Client
         $this->connection = $connection;
     }
 
-    public function execute(ActionsBuilder $payload): array
+    public function execute(ActionsBuilder $payload): Response
     {
         return $this->connection->execute($payload);
     }
@@ -110,12 +119,8 @@ class Client
         } else {
             throw new \RuntimeException("Action $className not found");
         }
-        $responses = $this->connection->execute($actionBuilder);
+        $response = $this->connection->execute($actionBuilder);
 
-        if (count($responses) === 1) {
-            return $responses[0];
-        }
-
-        return $responses;
+        return $response->getLastResponse();
     }
 }

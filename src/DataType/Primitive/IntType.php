@@ -38,4 +38,9 @@ class IntType implements TypeInterface
     {
         return __CLASS__ . ' : ' . self::SYMBOL . $this->length . ' - ' . $this->getValue();
     }
+
+    public static function getSymbol(): string
+    {
+        return self::SYMBOL;
+    }
 }

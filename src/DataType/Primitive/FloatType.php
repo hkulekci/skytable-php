@@ -33,4 +33,9 @@ class FloatType implements TypeInterface
     {
         $this->value = array_shift($lines);
     }
+
+    public static function getSymbol(): string
+    {
+        return self::SYMBOL;
+    }
 }
