@@ -35,7 +35,6 @@ class ArrayType implements TypeInterface
     {
         for ($i = 0; $i < $this->getLength(); $i++) {
             $line = array_shift($lines);
-            var_dump($this->typeSymbol);
             $typedData = match ($this->typeSymbol) {
                 IntType::SYMBOL => new IntType($line),
                 FloatType::SYMBOL => new FloatType($line),

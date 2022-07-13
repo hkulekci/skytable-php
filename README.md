@@ -64,3 +64,23 @@ $connection = new Connection('127.0.0.1', 2003, static function($connection) {
     $payload->add(new \Skytable\Action\Select('default:queue'));
 });
 ```
+
+## Managing a Queue
+
+To be able to create a queue, you need to create a table with the `keymap` model.
+
+```php
+<?php
+
+$skytable->create_table('queue', 'keymap(str,list<str>)');
+$skytable->select('default:queue');
+
+$skytable->lmod_push('queue', '1');
+$skytable->lmod_push('queue', '2');
+$skytable->lmod_push('queue', '3');
+$skytable->lmod_push('queue', '4');
+
+var_dump($skytable->lmod_pop('queue'));
+var_dump($skytable->lmod_rpop('queue'));
+var_dump($skytable->lget('queue'));
+```
