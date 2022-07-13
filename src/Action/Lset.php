@@ -9,8 +9,8 @@ namespace Skytable\Action;
 
 class Lset extends Action
 {
-    public function __construct($key)
+    public function __construct($key, array $values = [])
     {
-        $this->elements = ['lset', $key];
+        $this->elements = ['lset', $key, ...$values];
     }
 }

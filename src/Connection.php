@@ -9,7 +9,7 @@ class Connection
 {
     protected $socket;
 
-    public function __construct($host, $port = 2003)
+    public function __construct($host, $port = 2003, $callback = null)
     {
         $address = gethostbyname($host);
         $this->socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
@@ -21,18 +21,22 @@ class Connection
         if ($result === false) {
             throw new \RuntimeException("socket_connect() failed.\nReason: ($result) " . socket_strerror(socket_last_error($this->socket)) . "\n");
         }
+
+        if ($callback) {
+            $callback($this);
+        }
     }
 
     /**
-     * @param ActionsBuilder $payload
+     * @param ActionsBuilder $builder
      * @return array         array of Response
      */
-    public function execute(ActionsBuilder $payload): array
+    public function execute(ActionsBuilder $builder): array
     {
-        $input = $payload->payload();
+        $input = $builder->payload();
         $result = socket_write($this->socket, $input, strlen($input));
         if ($result === false) {
-            throw new \RuntimeException("socket_write() failed.\nReason: ($result) " . socket_strerror(socket_last_error($this->socket)) . "\n");
+            throw new \RuntimeException("socket_write() failed.\nReason: " . socket_strerror(socket_last_error($this->socket)) . "\n");
         }
 
         $bytes = socket_recv($this->socket, $out, 2048, MSG_EOF);

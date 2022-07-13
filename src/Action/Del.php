@@ -10,7 +10,7 @@ namespace Skytable\Action;
 
 class Del extends Action
 {
-    public function __construct($key)
+    public function __construct(string $key)
     {
         $this->elements = ['del', $key];
     }

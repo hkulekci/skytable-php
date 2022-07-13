@@ -12,7 +12,7 @@ class ActionsBuilder
 {
     protected array $actions;
 
-    public function addQuery(ActionInterface $action): static
+    public function add(ActionInterface $action): static
     {
         $this->actions[] = $action;
 

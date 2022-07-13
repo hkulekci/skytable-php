@@ -9,7 +9,7 @@ namespace Skytable\Action;
 
 class Lget extends Action
 {
-    public function __construct($key)
+    public function __construct(string $key)
     {
         $this->elements = ['lget', $key];
     }

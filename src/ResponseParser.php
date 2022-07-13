@@ -5,13 +5,19 @@
  */
 namespace Skytable;
 
-
-use Skytable\Response\BinaryStringResponse;
-use Skytable\Response\CodeResponse;
-use Skytable\Response\IntResponse;
-use Skytable\Response\JsonResponse;
-use Skytable\Response\Response;
-use Skytable\Response\StringResponse;
+use Skytable\DataType\ActionType;
+use Skytable\DataType\Array\AnyArrayType;
+use Skytable\DataType\Array\ArrayType;
+use Skytable\DataType\CodeType;
+use Skytable\DataType\DefaultType;
+use Skytable\DataType\Array\FlatArrayType;
+use Skytable\DataType\Primitive\BinaryStringType;
+use Skytable\DataType\Primitive\FloatType;
+use Skytable\DataType\Primitive\IntType;
+use Skytable\DataType\Primitive\StringType;
+use Skytable\DataType\Array\TypedNonNullArrayType;
+use Skytable\DataType\Array\TypedArrayType;
+use Skytable\DataType\TypeInterface;
 
 class ResponseParser
 {
@@ -29,19 +35,27 @@ class ResponseParser
     {
         $responses = [];
         $lines = explode("\n", $this->response);
-        if (isset($lines[0]) && str_starts_with($lines[0], '*')) {
-            $numberOfActions = (int) substr($lines[0], 1);
-            for ($i = 1; $i < $numberOfActions * 2; $i += 2) {
-                $data = [$lines[$i], $lines[$i + 1]];
-                $responses[] = match ($lines[$i][0]) {
-                    ':' => new IntResponse($data),
-                    '+' => new StringResponse($data),
-                    '!' => new CodeResponse($data),
-                    '?' => new BinaryStringResponse($data),
-                    '$' => new JsonResponse($data),
-                    default => new Response($data),
-                };
-            }
+        while ($line = array_shift($lines)) {
+            $tSymbol = strlpop($line); // remove type symbol
+            /** @var TypeInterface $typedData */
+            $typedData = match ($tSymbol) {
+                ActionType::SYMBOL => new ActionType($line),
+                CodeType::SYMBOL => new CodeType($line),
+                IntType::SYMBOL => new IntType($line),
+                FloatType::SYMBOL => new FloatType($line),
+                StringType::SYMBOL => new StringType($line),
+                BinaryStringType::SYMBOL => new BinaryStringType($line),
+                TypedNonNullArrayType::SYMBOL => new TypedNonNullArrayType($line),
+                TypedArrayType::SYMBOL => new TypedArrayType($line),
+                FlatArrayType::SYMBOL => new FlatArrayType($line),
+                AnyArrayType::SYMBOL => new AnyArrayType($line),
+                ArrayType::SYMBOL => new ArrayType($line),
+                default => new DefaultType($line),
+            };
+
+            $typedData->pull($lines);
+
+            $responses[] = $typedData;
         }
 
         return $responses;

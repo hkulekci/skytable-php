@@ -11,7 +11,7 @@ use Skytable\Action\Action;
 
 class Claim extends Action
 {
-    public function __construct($originKey)
+    public function __construct(string $originKey)
     {
         $this->elements = ['auth', 'claim', $originKey];
     }

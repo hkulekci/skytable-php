@@ -10,7 +10,7 @@ namespace Skytable\Action;
 
 class Update extends Action
 {
-    public function __construct($key, $value)
+    public function __construct(string $key, $value)
     {
         $this->elements = ['update', $key, $value];
     }

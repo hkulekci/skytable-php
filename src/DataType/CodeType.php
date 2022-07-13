@@ -3,17 +3,14 @@
  * @since     Jul 2022
  * @author    Haydar KULEKCI <haydarkulekci@gmail.com>
  */
+namespace Skytable\DataType;
 
-namespace Skytable\Response;
-
-
-class Response implements ResponseInterface
+class CodeType implements TypeInterface
 {
-    protected array $response;
+    public const SYMBOL = '!';
 
     /**
-     * @param array $response
-     *
+     * @var string
      * 0	Okay	The server succeded in carrying out some operation
      * 1	Nil	The client asked for a non-existent object
      * 2	Overwrite Error	The client tried to overwrite data
@@ -28,23 +25,31 @@ class Response implements ResponseInterface
      * 11	Authn realm error	The current user is not allowed to perform the action
      * Error String	Other error with description	Some other error occurred. See this document
      */
-    public function __construct(array $response)
+    private string $value;
+    private string $length;
+
+    public function __construct(string $meta)
     {
-        $this->response = $response;
+        $this->length = $meta;
     }
 
     public function getLength(): int
     {
-        return substr($this->response[0], 1);
+        return $this->length;
     }
 
-    public function getContent()
+    public function getValue(): string
     {
-        return $this->response[1];
+        return $this->value;
+    }
+
+    public function pull(&$lines): void
+    {
+        $this->value = array_shift($lines);
     }
 
     public function __toString(): string
     {
-        return get_class($this) . ' : ' . $this->getLength() . ' - ' . $this->getContent();
+        return __CLASS__ . ' : ' . self::SYMBOL . $this->length . ' - ' . $this->getValue();
     }
 }

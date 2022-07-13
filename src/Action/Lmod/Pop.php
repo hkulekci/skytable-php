@@ -11,7 +11,7 @@ use Skytable\Action\Action;
 
 class Pop extends Action
 {
-    public function __construct($key)
+    public function __construct(string $key)
     {
         $this->elements = ['lmod', $key, 'pop'];
     }

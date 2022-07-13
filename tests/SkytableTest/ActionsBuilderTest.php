@@ -16,7 +16,7 @@ class ActionsBuilderTest extends TestCase
     {
         $actionBuilder = new ActionsBuilder();
 
-        $actionBuilder->addQuery((new Heya()));
+        $actionBuilder->add((new Heya()));
 
         $this->assertEquals("*1\n~1\n4\nheya\n", $actionBuilder->payload());
     }
@@ -25,7 +25,7 @@ class ActionsBuilderTest extends TestCase
     {
         $actionBuilder = new ActionsBuilder();
 
-        $actionBuilder->addQuery((new Whereami()));
+        $actionBuilder->add((new Whereami()));
 
         $this->assertEquals("*1\n~1\n8\nwhereami\n", $actionBuilder->payload());
     }

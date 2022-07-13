@@ -12,7 +12,7 @@ use Skytable\Action\Action;
 
 class Push extends Action
 {
-    public function __construct($key, $value)
+    public function __construct(string $key, $value)
     {
         $this->elements = ['lmod', $key, 'push', $value];
     }

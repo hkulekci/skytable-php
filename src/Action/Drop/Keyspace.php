@@ -5,14 +5,14 @@
  * @author    Haydar KULEKCI <haydarkulekci@gmail.com>
  */
 
-namespace Skytable\Action\Create;
+namespace Skytable\Action\Drop;
 
 use Skytable\Action\Action;
 
 class Keyspace extends Action
 {
-    public function __construct(string $name)
+    public function __construct($name)
     {
-        $this->elements = ['create', 'keyspace', $name];
+        $this->elements = ['drop', 'keyspace', $name];
     }
 }

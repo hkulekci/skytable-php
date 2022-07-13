@@ -4,7 +4,10 @@
     "autoload": {
         "psr-4": {
             "Skytable\\": "src/"
-        }
+        },
+        "files": [
+            "src/utilities.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

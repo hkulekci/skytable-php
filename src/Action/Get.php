@@ -9,7 +9,7 @@ namespace Skytable\Action;
 
 class Get extends Action
 {
-    public function __construct($key)
+    public function __construct(string $key)
     {
         $this->elements = ['get', $key];
     }

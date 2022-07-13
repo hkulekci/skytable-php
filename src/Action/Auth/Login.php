@@ -10,7 +10,7 @@ use Skytable\Action\Action;
 
 class Login extends Action
 {
-    public function __construct($username, $token)
+    public function __construct(string $username, string $token)
     {
         $this->elements = ['auth', 'login', $username, $token];
     }
