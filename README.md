@@ -9,8 +9,6 @@ Here an example to create a connection for Skytable:
 
 ```php
 <?php
-include __DIR__ . '/../vendor/autoload.php';
-
 $connection = new \Skytable\Connection('127.0.0.1', 2003);
 ```
 
@@ -20,8 +18,6 @@ Client requires a Connection to be created. Client have methods to send command 
 
 ```php
 <?php
-include __DIR__ . '/../vendor/autoload.php';
-
 $connection = new \Skytable\Connection('127.0.0.1', 2003);
 $client = new \Skytable\Client($connection);
 ```
