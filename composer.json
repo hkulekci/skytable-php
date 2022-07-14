@@ -1,5 +1,6 @@
 {
     "name": "hkulekci/skytable-php",
+    "description": "This library is a client for PHP that allows you to interact with the Skytable server.",
     "license": "MIT",
     "autoload": {
         "psr-4": {
