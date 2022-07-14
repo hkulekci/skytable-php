@@ -13,16 +13,16 @@ class CodeType implements TypeInterface
      * @var string
      */
     private string $code;
-    private string $value;
+    private string $length;
 
     public function __construct(string $meta)
     {
-        $this->code = $meta;
+        $this->length = $meta;
     }
 
     public function getLength(): int
     {
-        return 1;
+        return $this->length;
     }
 
     public function getValue(): ?bool
@@ -42,27 +42,26 @@ class CodeType implements TypeInterface
          * 11	Authn realm error	The current user is not allowed to perform the action
          * Error String	Other error with description	Some other error occurred. See this document
          */
-        return match ((int)$this->code) {
-            0 => true,
-            1 => null,
-            2 => throw new \RuntimeException('Overwrite error'),
-            3 => throw new \RuntimeException('Action error'),
-            4 => throw new \RuntimeException('Packet error'),
-            5 => throw new \RuntimeException('Server error'),
-            6 => throw new \RuntimeException('Other error'),
-            7 => throw new \RuntimeException('Wrong type error'),
-            8 => throw new \RuntimeException('Unknown data type'),
-            9 => throw new \RuntimeException('Encoding error'),
-            10 => throw new \RuntimeException('Bad credentials'),
-            11 => throw new \RuntimeException('Authn realm error'),
-            19 => throw new \RuntimeException('Container not found'),
-            default => throw new \RuntimeException('Unexpected match value'),
+        return match ($this->code) {
+            '0' => true,
+            '1' => null,
+            '2' => throw new \RuntimeException('Overwrite error'),
+            '3' => throw new \RuntimeException('Action error'),
+            '4' => throw new \RuntimeException('Packet error'),
+            '5' => throw new \RuntimeException('Server error'),
+            '6' => throw new \RuntimeException('Other error'),
+            '7' => throw new \RuntimeException('Wrong type error'),
+            '8' => throw new \RuntimeException('Unknown data type'),
+            '9' => throw new \RuntimeException('Encoding error'),
+            '10' => throw new \RuntimeException('Bad credentials'),
+            '11' => throw new \RuntimeException('Authn realm error'),
+            default => throw new \RuntimeException($this->code),
         };
     }
 
     public function pull(&$lines): void
     {
-        $this->value = array_shift($lines);
+        $this->code = array_shift($lines);
     }
 
     public static function getSymbol(): string
