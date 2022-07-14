@@ -1,0 +1,55 @@
+name: Test application
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  php:
+    name: 'Run tests with php ${{ matrix.php-version }}'
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      max-parallel: 1  # all versions are using same elasticsearch and mysql service. They need to run 1 by 1.
+      matrix:
+        include:
+          - php-version: '8.0.16'
+          - php-version: '8.1'
+    services:
+      skytable:
+        image: skytable/sdb:v0.7.5
+        ports:
+          - 2003:2003
+
+    steps:
+      -   name: Checkout project
+          uses: actions/checkout@v2
+
+      -   name: Install and configure PHP
+          uses: shivammathur/setup-php@v2
+          with:
+            php-version: ${{ matrix.php-version }}
+            tools: 'composer'
+
+      -   name: Get composer cache directory
+          id: composer-cache-dir
+          run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      -   name: Cache dependencies
+          uses: actions/cache@v2
+          id: composer-cache
+          with:
+            path: ${{ steps.composer-cache-dir.outputs.dir }}
+            key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+            restore-keys: |
+              ${{ runner.os }}-composer-
+      -   name: Install dependencies
+          run: |
+            composer validate --strict
+            composer install --no-interaction --prefer-dist
+      -   name: Run tests
+          run: vendor/bin/phpunit --coverage-clover=coverage.xml
+

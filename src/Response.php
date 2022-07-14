@@ -39,9 +39,9 @@ class Response
         return $this->parsedBody;
     }
 
-    public function getLastResponse(): TypeInterface
+    public function getLastData(): TypeInterface
     {
-        return array_pop($this->parsedBody);
+        return end($this->parsedBody);
     }
 
     private function parse(): array

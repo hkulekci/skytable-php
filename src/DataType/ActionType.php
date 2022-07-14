@@ -21,9 +21,9 @@ class ActionType implements TypeInterface
         return 0;
     }
 
-    public function getValue(): int
+    public function getValue(): mixed
     {
-        return (int) $this->length;
+        return null;
     }
 
     public function pull(&$lines): void

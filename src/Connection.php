@@ -40,6 +40,7 @@ class Connection
         }
 
         $bytes = socket_recv($this->socket, $out, 2048, MSG_EOF);
+        var_dump($out);
         if (false === $bytes) {
             throw new \RuntimeException("socket_recv() failed; reason: " . socket_strerror(socket_last_error($this->socket)) . "\n");
         }

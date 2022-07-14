@@ -55,6 +55,16 @@ class ArrayType implements TypeInterface
 
     public function getValue(): array
     {
-        return $this->value;
+        $values = [];
+
+        foreach ($this->value as $value) {
+            if ($value instanceof TypeInterface) {
+                $values[] = $value->getValue();
+            } else {
+                $values[] = $value;
+            }
+        }
+
+        return $values;
     }
 }

@@ -11,11 +11,8 @@ use Skytable\Action\Action;
 
 class Limit extends Action
 {
-    public function __construct(string $key, int $limit = null)
+    public function __construct(string $key, int $limit)
     {
-        $this->elements = ['lget', $key, 'limit'];
-        if ($limit) {
-            $this->elements[] = $limit;
-        }
+        $this->elements = ['lget', $key, 'limit', $limit];
     }
 }

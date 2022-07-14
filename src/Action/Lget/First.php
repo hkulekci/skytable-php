@@ -13,6 +13,6 @@ class First extends Action
 {
     public function __construct(string $key)
     {
-        $this->elements = ['lget', $key, 'len'];
+        $this->elements = ['lget', $key, 'first'];
     }
 }

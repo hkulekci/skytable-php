@@ -11,7 +11,7 @@ class FloatType implements TypeInterface
 {
     public const SYMBOL = '%';
 
-    private int $value;
+    private float $value;
     private string $length;
 
     public function __construct(string $meta)
@@ -24,7 +24,7 @@ class FloatType implements TypeInterface
         return (int) $this->length;
     }
 
-    public function getValue(): int
+    public function getValue(): float
     {
         return $this->value;
     }

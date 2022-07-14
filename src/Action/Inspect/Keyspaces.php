@@ -12,7 +12,7 @@ use Skytable\Action\Action;
 
 class Keyspaces extends Action
 {
-    public function __construct(string $name = null)
+    public function __construct()
     {
         $this->elements = ['inspect', 'keyspaces'];
     }
