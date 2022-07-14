@@ -5,12 +5,14 @@
  * @author    Haydar KULEKCI <haydarkulekci@gmail.com>
  */
 
-namespace Skytable\Action;
+namespace Skytable\Action\Lget;
 
-class Lget extends Action
+use Skytable\Action\Action;
+
+class Len extends Action
 {
     public function __construct(string $key)
     {
-        $this->elements = ['lget', $key];
+        $this->elements = ['lget', $key, 'len'];
     }
 }

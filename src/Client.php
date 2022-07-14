@@ -29,6 +29,24 @@ namespace Skytable;
  * @link \Skytable\Action\Lget
  * @method lget(string $key): TypeInterface
  *
+ * @link \Skytable\Action\Lget\First
+ * @method lget_first(string $key): TypeInterface
+ *
+ * @link \Skytable\Action\Lget\Last
+ * @method lget_last(string $key): TypeInterface
+ *
+ * @link \Skytable\Action\Lget\Len
+ * @method lget_len(string $key): TypeInterface
+ *
+ * @link \Skytable\Action\Lget\Limit
+ * @method lget_limit(string $key, int $limit = null): TypeInterface
+ *
+ * @link \Skytable\Action\Lget\Range
+ * @method lget_range(string $key, int $start, int $stop = null): TypeInterface
+ *
+ * @link \Skytable\Action\Lget\Valueat
+ * @method lget_valueat(string $key, int $index): TypeInterface
+ *
  * @link \Skytable\Action\Lset
  * @method lset(string $key, array $values): TypeInterface
  *
