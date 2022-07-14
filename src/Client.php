@@ -122,8 +122,7 @@ class Client
         } else {
             throw new \RuntimeException("Action $className not found");
         }
-        $response = $this->connection->execute($actionBuilder);
 
-        return $response->getLastResponse();
+        return $this->connection->execute($actionBuilder)->getLastResponse();
     }
 }
