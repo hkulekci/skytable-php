@@ -1,5 +1,7 @@
 # Skytable PHP Client
 
+[![codecov](https://codecov.io/gh/hkulekci/skytable-php/branch/master/graph/badge.svg?token=93THAX1ZPN)](https://codecov.io/gh/hkulekci/skytable-php)
+
 Skytable is an insanely fast, free and open-source, realtime NoSQL database that aims to provide flexible data 
 modeling without compromising on performance or queryability — at scale.
 
