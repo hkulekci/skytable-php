@@ -63,7 +63,7 @@ namespace Skytable;
  * @method create_keyspace(string $name): TypeInterface
  *
  * @link \Skytable\Action\Create\Table
- * @method create_table(string $name): TypeInterface
+ * @method create_table(string $name, string $keymap): TypeInterface
  *
  * @link \Skytable\Action\Drop\Keyspace
  * @method drop_keyspace(string $name): TypeInterface

@@ -11,7 +11,7 @@ use Skytable\Action\Action;
 
 class Table extends Action
 {
-    public function __construct($name, $keyMap)
+    public function __construct(string $name, string $keyMap)
     {
         $this->elements = ['create', 'table', $name, $keyMap];
     }
