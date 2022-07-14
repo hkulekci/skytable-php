@@ -71,6 +71,9 @@ namespace Skytable;
  * @link \Skytable\Action\Lmod\Pop
  * @method lmod_pop(string $key): TypeInterface
  *
+ * @link \Skytable\Action\Lmod\Clear
+ * @method lmod_clear(string $key): TypeInterface
+ *
  * @link \Skytable\Action\Lmod\Push
  * @method lmod_push(string $key, string $value): TypeInterface
  *
