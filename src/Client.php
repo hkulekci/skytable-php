@@ -109,6 +109,12 @@ use RuntimeException;
  * @link \Skytable\Action\Sys\Info\Version
  * @method sys_info_version(): TypeInterface
  *
+ * @link \Skytable\Action\Sys\Metric\Health
+ * @method sys_metric_health(): TypeInterface
+ *
+ * @link \Skytable\Action\Sys\Metric\Storage
+ * @method sys_metric_storage(): TypeInterface
+ *
  * @link \Skytable\Action\Inspect\Keyspaces
  * @method inspect_keyspaces(): TypeInterface
  *
@@ -137,11 +143,12 @@ class Client
         $actionBuilder = new ActionsBuilder();
         $className = str_replace(' ', '\\', ucwords(str_replace('_', ' ', $name)));
         $classNameWithNamespace = __NAMESPACE__ . '\\Action\\' . $className;
-        if (class_exists($classNameWithNamespace)) {
-            $actionBuilder->add(new $classNameWithNamespace(...$arguments));
-        } else {
+
+        if (!class_exists($classNameWithNamespace)) {
             throw new RuntimeException("Action $className not found");
         }
+
+        $actionBuilder->add(new $classNameWithNamespace(...$arguments));
 
         return $this->connection->execute($actionBuilder)->getLastData();
     }
