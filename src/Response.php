@@ -34,11 +34,6 @@ class Response
         $this->parsedBody = $this->parse();
     }
 
-    public function getParsedBody(): array
-    {
-        return $this->parsedBody;
-    }
-
     public function getLastData(): TypeInterface
     {
         return end($this->parsedBody);

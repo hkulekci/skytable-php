@@ -3,7 +3,7 @@
  * @since     Jul 2022
  * @author    Haydar KULEKCI <haydarkulekci@gmail.com>
  */
-namespace SkytableTest\Action;
+namespace SkytableTest\Unit\Action;
 
 use PHPUnit\Framework\TestCase;
 use Skytable\Action\Lget\First;

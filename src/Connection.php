@@ -5,6 +5,8 @@
  */
 namespace Skytable;
 
+use RuntimeException;
+
 class Connection
 {
     protected $socket;
@@ -14,12 +16,12 @@ class Connection
         $address = gethostbyname($host);
         $this->socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
         if ($this->socket === false) {
-            throw new \RuntimeException("socket_create() failed: reason: " . socket_strerror(socket_last_error()));
+            throw new RuntimeException("socket_create() failed: reason: " . socket_strerror(socket_last_error()));
         }
 
         $result = socket_connect($this->socket, $address, $port);
         if ($result === false) {
-            throw new \RuntimeException("socket_connect() failed.\nReason: ($result) " . socket_strerror(socket_last_error($this->socket)) . "\n");
+            throw new RuntimeException("socket_connect() failed.\nReason: ($result) " . socket_strerror(socket_last_error($this->socket)) . "\n");
         }
 
         if ($callback) {
@@ -36,13 +38,13 @@ class Connection
         $input = $builder->payload();
         $result = socket_write($this->socket, $input, strlen($input));
         if ($result === false) {
-            throw new \RuntimeException("socket_write() failed.\nReason: " . socket_strerror(socket_last_error($this->socket)) . "\n");
+            throw new RuntimeException("socket_write() failed.\nReason: " . socket_strerror(socket_last_error($this->socket)) . "\n");
         }
 
         $bytes = socket_recv($this->socket, $out, 2048, MSG_EOF);
-        var_dump($out);
+
         if (false === $bytes) {
-            throw new \RuntimeException("socket_recv() failed; reason: " . socket_strerror(socket_last_error($this->socket)) . "\n");
+            throw new RuntimeException("socket_recv() failed; reason: " . socket_strerror(socket_last_error($this->socket)) . "\n");
         }
 
         return new Response($out);

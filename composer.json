@@ -12,7 +12,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "SkytableTest\\": "src/"
+            "SkytableTest\\": "tests/SkytableTest/"
         }
     },
     "authors": [
