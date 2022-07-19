@@ -5,6 +5,8 @@
  */
 namespace Skytable;
 
+use RuntimeException;
+
 /**
  * @Client is the client class of Skytable.
  *
@@ -138,7 +140,7 @@ class Client
         if (class_exists($classNameWithNamespace)) {
             $actionBuilder->add(new $classNameWithNamespace(...$arguments));
         } else {
-            throw new \RuntimeException("Action $className not found");
+            throw new RuntimeException("Action $className not found");
         }
 
         return $this->connection->execute($actionBuilder)->getLastData();

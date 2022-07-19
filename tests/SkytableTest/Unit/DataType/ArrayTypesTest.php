@@ -3,7 +3,7 @@
  * @since     Jul 2022
  * @author    Haydar KULEKCI <haydarkulekci@gmail.com>
  */
-namespace SkytableTest\DataType;
+namespace SkytableTest\Unit\DataType;
 
 use PHPUnit\Framework\TestCase;
 use Skytable\DataType\Array\AnyArrayType;

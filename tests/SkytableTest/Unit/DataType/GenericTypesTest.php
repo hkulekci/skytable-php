@@ -3,9 +3,10 @@
  * @since     Jul 2022
  * @author    Haydar KULEKCI <haydarkulekci@gmail.com>
  */
-namespace SkytableTest\DataType;
+namespace SkytableTest\Unit\DataType;
 
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Skytable\DataType\ActionType;
 use Skytable\DataType\CodeType;
 use Skytable\DataType\DefaultType;
@@ -28,7 +29,7 @@ class GenericTypesTest extends TestCase
 
         $this->assertInstanceOf(CodeType::class, $response->getLastData());
         $this->assertEquals(11, $response->getLastData()->getLength());
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('wrong-model');
         $response->getLastData()->getValue();
     }

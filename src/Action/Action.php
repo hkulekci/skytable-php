@@ -6,12 +6,14 @@
 
 namespace Skytable\Action;
 
+use RuntimeException;
+
 class Action implements ActionInterface
 {
     protected array $elements;
 
     /**
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function getPayload(): string
     {
@@ -30,7 +32,7 @@ class Action implements ActionInterface
                 $payload[] = strlen($element) . "\n";
                 $payload[] = $element . "\n";
             } else {
-                throw new \RuntimeException('Invalid element type : ' . gettype($element));
+                throw new RuntimeException('Invalid element type : ' . gettype($element));
             }
         }
 

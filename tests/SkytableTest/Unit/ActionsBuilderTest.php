@@ -3,7 +3,7 @@
  * @since     Jul 2022
  * @author    Haydar KULEKCI <haydarkulekci@gmail.com>
  */
-namespace SkytableTest;
+namespace SkytableTest\Unit;
 
 use PHPUnit\Framework\TestCase;
 use Skytable\Action\Heya;
