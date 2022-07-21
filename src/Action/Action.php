@@ -6,22 +6,26 @@
 
 namespace Skytable\Action;
 
-use RuntimeException;
+use Skytable\Exception\ActionException;
 
 class Action implements ActionInterface
 {
     protected array $elements;
 
     /**
-     * @throws RuntimeException
+     * @throws ActionException
      */
     public function getPayload(): string
     {
-        $payload = $this->preparePayload($this->elements);
+        $payload = $this->preparePayload();
         return implode('', $payload);
     }
 
-    private function preparePayload($elements) {
+    /**
+     * @throws ActionException
+     */
+    private function preparePayload(): array
+    {
         $payload = [
             '~' . count($this->elements) . "\n",
         ];
@@ -32,7 +36,7 @@ class Action implements ActionInterface
                 $payload[] = strlen($element) . "\n";
                 $payload[] = $element . "\n";
             } else {
-                throw new RuntimeException('Invalid element type : ' . gettype($element));
+                throw new ActionException('Invalid element type : ' . gettype($element));
             }
         }
 
