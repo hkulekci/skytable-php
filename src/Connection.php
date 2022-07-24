@@ -6,22 +6,27 @@
 namespace Skytable;
 
 use RuntimeException;
+use Skytable\Exception\ServerException;
 
 class Connection
 {
     protected $socket;
 
+    /**
+     * @throws ServerException
+     */
     public function __construct($host, $port = 2003, $callback = null)
     {
         $address = gethostbyname($host);
         $this->socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
         if ($this->socket === false) {
-            throw new RuntimeException("socket_create() failed: reason: " . socket_strerror(socket_last_error()));
+            throw new ServerException("socket_create() failed: reason: " . socket_strerror(socket_last_error()));
         }
 
-        $result = socket_connect($this->socket, $address, $port);
-        if ($result === false) {
-            throw new RuntimeException("socket_connect() failed.\nReason: ($result) " . socket_strerror(socket_last_error($this->socket)) . "\n");
+        try {
+            socket_connect($this->socket, $address, $port);
+        } catch (\Exception $e) {
+            throw new ServerException("socket_connect() failed: reason: " . $e->getMessage());
         }
 
         if ($callback) {

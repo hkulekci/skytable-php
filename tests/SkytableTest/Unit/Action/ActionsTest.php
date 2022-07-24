@@ -21,6 +21,7 @@ use Skytable\Action\Select;
 use Skytable\Action\Set;
 use Skytable\Action\Update;
 use Skytable\Action\Whereami;
+use Skytable\Exception\InvalidArgumentException;
 
 class ActionsTest extends TestCase
 {
@@ -141,5 +142,12 @@ class ActionsTest extends TestCase
         $action = new Whereami();
 
         $this->assertEquals("~1\n8\nwhereami\n", $action->getPayload());
+    }
+
+    public function testWrongAction(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $action = new Set('key', new \stdClass());
+        $action->getPayload();
     }
 }

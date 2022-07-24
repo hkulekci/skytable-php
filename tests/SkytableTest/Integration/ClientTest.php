@@ -11,6 +11,7 @@ use Skytable\ActionsBuilder;
 use Skytable\DataType\CodeType;
 use Skytable\DataType\Primitive\IntType;
 use Skytable\DataType\Primitive\StringType;
+use Skytable\Exception\ActionException;
 
 class ClientTest extends BaseIntegration
 {
@@ -35,14 +36,14 @@ class ClientTest extends BaseIntegration
 
     public function testUnsupportedAction(): void
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(ActionException::class);
         $this->expectExceptionMessage('Action SomeOtherAction not found');
         $this->client->someOtherAction();
     }
 
     public function testUnsupportedActionNamespaced(): void
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(ActionException::class);
         $this->expectExceptionMessage('Action Some\Other\Action not found');
         $this->client->some_other_action();
     }

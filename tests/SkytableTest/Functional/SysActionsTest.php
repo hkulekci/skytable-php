@@ -37,7 +37,7 @@ class SysActionsTest extends BaseIntegration
         $this->assertIsString($response->getValue());
     }
 
-    public function testSysInfoProtever(): void
+    public function testSysInfoProtover(): void
     {
         $response = $this->client->sys_info_protover();
         $this->assertInstanceOf(FloatType::class, $response);

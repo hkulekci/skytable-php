@@ -6,14 +6,15 @@
 
 namespace Skytable\Action;
 
-use RuntimeException;
+use Skytable\Exception\ActionException;
+use Skytable\Exception\InvalidArgumentException;
 
 class Action implements ActionInterface
 {
     protected array $elements;
 
     /**
-     * @throws RuntimeException
+     * @throws ActionException
      */
     public function getPayload(): string
     {
@@ -21,18 +22,22 @@ class Action implements ActionInterface
         return implode('', $payload);
     }
 
-    private function preparePayload($elements) {
+    /**
+     * @throws ActionException
+     */
+    private function preparePayload($elements): array
+    {
         $payload = [
-            '~' . count($this->elements) . "\n",
+            '~' . count($elements) . "\n",
         ];
-        foreach ($this->elements as $element) {
+        foreach ($elements as $element) {
             if (is_array($element)) {
                 $payload += $this->preparePayload($element);
             } else if (is_string($element) || is_numeric($element)) {
                 $payload[] = strlen($element) . "\n";
                 $payload[] = $element . "\n";
             } else {
-                throw new RuntimeException('Invalid element type : ' . gettype($element));
+                throw new InvalidArgumentException('Invalid element type : ' . gettype($element));
             }
         }
 
