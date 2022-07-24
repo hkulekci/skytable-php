@@ -7,6 +7,7 @@
 namespace Skytable\Action;
 
 use Skytable\Exception\ActionException;
+use Skytable\Exception\InvalidArgumentException;
 
 class Action implements ActionInterface
 {
@@ -17,26 +18,26 @@ class Action implements ActionInterface
      */
     public function getPayload(): string
     {
-        $payload = $this->preparePayload();
+        $payload = $this->preparePayload($this->elements);
         return implode('', $payload);
     }
 
     /**
      * @throws ActionException
      */
-    private function preparePayload(): array
+    private function preparePayload($elements): array
     {
         $payload = [
-            '~' . count($this->elements) . "\n",
+            '~' . count($elements) . "\n",
         ];
-        foreach ($this->elements as $element) {
+        foreach ($elements as $element) {
             if (is_array($element)) {
                 $payload += $this->preparePayload($element);
             } else if (is_string($element) || is_numeric($element)) {
                 $payload[] = strlen($element) . "\n";
                 $payload[] = $element . "\n";
             } else {
-                throw new ActionException('Invalid element type : ' . gettype($element));
+                throw new InvalidArgumentException('Invalid element type : ' . gettype($element));
             }
         }
 
