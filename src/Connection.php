@@ -30,6 +30,11 @@ class Connection
         }
     }
 
+    public function getSocket(): Socket
+    {
+        return $this->socket;
+    }
+
     /**
      * @param ActionsBuilder $builder
      * @return Response array of Response
@@ -39,15 +44,15 @@ class Connection
     {
         try {
             $input = $builder->payload();
-            $this->socket->write($input);
+            $this->getSocket()->write($input);
         } catch (\Exception $e) {
-            throw new RuntimeException("socket_write() failed.\nReason: " . $e->getMessage() . "\n");
+            throw new ServerException("writing data failed. reason: " . $e->getMessage());
         }
 
         try {
-            $out = $this->socket->recv(2048, MSG_EOF);
+            $out = $this->getSocket()->recv(2048, MSG_EOF);
         } catch (\Exception $e) {
-            throw new ServerException("receive data failed; reason: " . $e->getMessage() . "\n");
+            throw new ServerException("receiving data failed. reason: " . $e->getMessage());
         }
 
         return new Response($out);
@@ -55,6 +60,6 @@ class Connection
 
     public function __destruct()
     {
-        $this->socket->close();
+        $this->getSocket()->close();
     }
 }

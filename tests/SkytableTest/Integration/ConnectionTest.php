@@ -11,6 +11,7 @@ use Skytable\ActionsBuilder;
 use Skytable\Connection;
 use Skytable\DataType\Primitive\StringType;
 use Skytable\Exception\ServerException;
+use Socket\Raw\Socket;
 
 class ConnectionTest extends BaseIntegration
 {
@@ -55,12 +56,52 @@ class ConnectionTest extends BaseIntegration
      */
     public function testConnectionCallbackWithErrors(): void
     {
+        $this->expectException(ServerException::class);
         $function = function (Connection $connection) {
             $this->assertInstanceOf(Connection::class, $connection);
         };
         $mock = Mockery::mock($function);
         $mock->shouldReceive('__invoke')->never();
 
-        new Connection('127.0.0.1', 2003, $function);
+        new Connection('127.0.0.1', 2004, $function);
+    }
+
+    /**
+     * @throws ServerException
+     */
+    public function testConnectionWithWriteErrors(): void
+    {
+        $this->expectException(ServerException::class);
+        $this->expectExceptionMessage("writing data failed. reason: Writing Error");
+        $socket = Mockery::mock(Socket::class);
+        $socket->shouldReceive('write')->andThrow(new \Exception('Writing Error'));
+
+        $socket->shouldReceive('recv')->andReturn('~1\n4\nheya\n');
+
+        $mock = Mockery::mock(Connection::class)->makePartial();
+        $mock->shouldReceive('getSocket')->andReturn($socket);
+
+        $actionBuilder = new ActionsBuilder();
+        $actionBuilder->add(new Heya());
+        $mock->execute($actionBuilder);
+    }
+
+    /**
+     * @throws ServerException
+     */
+    public function testConnectionWithReadErrors(): void
+    {
+        $this->expectException(ServerException::class);
+        $this->expectExceptionMessage("receiving data failed. reason: Receiving Error");
+        $socket = Mockery::mock(Socket::class);
+        $socket->shouldReceive('write')->andReturn(10);
+        $socket->shouldReceive('recv')->andThrow(new \Exception('Receiving Error'));
+
+        $mock = Mockery::mock(Connection::class)->makePartial();
+        $mock->shouldReceive('getSocket')->andReturn($socket);
+
+        $actionBuilder = new ActionsBuilder();
+        $actionBuilder->add(new Heya());
+        $mock->execute($actionBuilder);
     }
 }
