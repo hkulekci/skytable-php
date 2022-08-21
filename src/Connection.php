@@ -7,26 +7,22 @@ namespace Skytable;
 
 use RuntimeException;
 use Skytable\Exception\ServerException;
+use Socket\Raw\Factory;
+use Socket\Raw\Socket;
 
 class Connection
 {
-    protected $socket;
+    protected Socket $socket;
 
     /**
      * @throws ServerException
      */
     public function __construct($host, $port = 2003, $callback = null)
     {
-        $address = gethostbyname($host);
-        $this->socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-        if ($this->socket === false) {
-            throw new ServerException("socket_create() failed: reason: " . socket_strerror(socket_last_error()));
-        }
-
         try {
-            socket_connect($this->socket, $address, $port);
+            $this->socket = (new Factory())->createClient($host . ':' . $port);
         } catch (\Exception $e) {
-            throw new ServerException("socket_connect() failed: reason: " . $e->getMessage());
+            throw new ServerException("socket_create() failed: reason: " . $e->getMessage());
         }
 
         if ($callback) {
@@ -34,22 +30,29 @@ class Connection
         }
     }
 
+    public function getSocket(): Socket
+    {
+        return $this->socket;
+    }
+
     /**
      * @param ActionsBuilder $builder
      * @return Response array of Response
+     * @throws ServerException
      */
     public function execute(ActionsBuilder $builder): Response
     {
-        $input = $builder->payload();
-        $result = socket_write($this->socket, $input, strlen($input));
-        if ($result === false) {
-            throw new RuntimeException("socket_write() failed.\nReason: " . socket_strerror(socket_last_error($this->socket)) . "\n");
+        try {
+            $input = $builder->payload();
+            $this->getSocket()->write($input);
+        } catch (\Exception $e) {
+            throw new ServerException("writing data failed. reason: " . $e->getMessage());
         }
 
-        $bytes = socket_recv($this->socket, $out, 2048, MSG_EOF);
-
-        if (false === $bytes) {
-            throw new RuntimeException("socket_recv() failed; reason: " . socket_strerror(socket_last_error($this->socket)) . "\n");
+        try {
+            $out = $this->getSocket()->recv(2048, MSG_EOF);
+        } catch (\Exception $e) {
+            throw new ServerException("receiving data failed. reason: " . $e->getMessage());
         }
 
         return new Response($out);
@@ -57,8 +60,6 @@ class Connection
 
     public function __destruct()
     {
-        if ($this->socket) {
-            socket_close($this->socket);
-        }
+        $this->getSocket()->close();
     }
 }
