@@ -7,10 +7,5 @@ namespace Skytable\DataType\Array;
 
 class FlatArrayType extends ArrayType
 {
-    public const SYMBOL = '_';
-
-    public static function getSymbol(): string
-    {
-        return self::SYMBOL;
-    }
+    final public const SYMBOL = '_';
 }

@@ -9,7 +9,7 @@ use Skytable\DataType\TypeInterface;
 
 class BinaryStringType implements TypeInterface
 {
-    public const SYMBOL = '?';
+    final public const SYMBOL = '?';
 
     private string $length;
     private string $value;
@@ -32,11 +32,6 @@ class BinaryStringType implements TypeInterface
     public function getValue(): string
     {
         return $this->value;
-    }
-
-    public static function getSymbol(): string
-    {
-        return self::SYMBOL;
     }
 
     public function __toString(): string

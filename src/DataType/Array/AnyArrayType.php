@@ -7,10 +7,5 @@ namespace Skytable\DataType\Array;
 
 class AnyArrayType extends ArrayType
 {
-    public const SYMBOL = '~';
-
-    public static function getSymbol(): string
-    {
-        return self::SYMBOL;
-    }
+    final public const SYMBOL = '~';
 }

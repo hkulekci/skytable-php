@@ -8,9 +8,4 @@ namespace Skytable\DataType\Array;
 class TypedNonNullArrayType extends ArrayType
 {
     public const SYMBOL = '^';
-
-    public static function getSymbol(): string
-    {
-        return self::SYMBOL;
-    }
 }

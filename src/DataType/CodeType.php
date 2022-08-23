@@ -9,7 +9,7 @@ use RuntimeException;
 
 class CodeType implements TypeInterface
 {
-    public const SYMBOL = '!';
+    final public const SYMBOL = '!';
 
     /**
      * @var string
@@ -64,11 +64,6 @@ class CodeType implements TypeInterface
     public function pull(&$lines): void
     {
         $this->code = array_shift($lines);
-    }
-
-    public static function getSymbol(): string
-    {
-        return self::SYMBOL;
     }
 
     public function __toString(): string

@@ -9,7 +9,7 @@ use Skytable\DataType\TypeInterface;
 
 class FloatType implements TypeInterface
 {
-    public const SYMBOL = '%';
+    final public const SYMBOL = '%';
 
     private float $value;
     private string $length;
@@ -32,10 +32,5 @@ class FloatType implements TypeInterface
     public function pull(&$lines): void
     {
         $this->value = array_shift($lines);
-    }
-
-    public static function getSymbol(): string
-    {
-        return self::SYMBOL;
     }
 }

@@ -9,7 +9,7 @@ use Skytable\DataType\TypeInterface;
 
 class IntType implements TypeInterface
 {
-    public const SYMBOL = ':';
+    final public const SYMBOL = ':';
 
     private int $value;
     private int $length;
@@ -37,10 +37,5 @@ class IntType implements TypeInterface
     public function __toString(): string
     {
         return __CLASS__ . ' : ' . self::SYMBOL . $this->length . ' - ' . $this->getValue();
-    }
-
-    public static function getSymbol(): string
-    {
-        return self::SYMBOL;
     }
 }

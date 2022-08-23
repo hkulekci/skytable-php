@@ -47,17 +47,17 @@ class Response
             $tSymbol = strlpop($line); // remove type symbol
             /** @var TypeInterface $typedData */
             $typedData = match ($tSymbol) {
-                ActionType::getSymbol() => new ActionType($line),
-                CodeType::getSymbol() => new CodeType($line),
-                IntType::getSymbol() => new IntType($line),
-                FloatType::getSymbol() => new FloatType($line),
-                StringType::getSymbol() => new StringType($line),
-                BinaryStringType::getSymbol() => new BinaryStringType($line),
-                TypedNonNullArrayType::getSymbol() => new TypedNonNullArrayType($line),
-                TypedArrayType::getSymbol() => new TypedArrayType($line),
-                FlatArrayType::getSymbol() => new FlatArrayType($line),
-                AnyArrayType::getSymbol() => new AnyArrayType($line),
-                ArrayType::getSymbol() => new ArrayType($line),
+                ActionType::SYMBOL => new ActionType($line),
+                CodeType::SYMBOL => new CodeType($line),
+                IntType::SYMBOL => new IntType($line),
+                FloatType::SYMBOL => new FloatType($line),
+                StringType::SYMBOL => new StringType($line),
+                BinaryStringType::SYMBOL => new BinaryStringType($line),
+                TypedNonNullArrayType::SYMBOL => new TypedNonNullArrayType($line),
+                TypedArrayType::SYMBOL => new TypedArrayType($line),
+                FlatArrayType::SYMBOL => new FlatArrayType($line),
+                AnyArrayType::SYMBOL => new AnyArrayType($line),
+                ArrayType::SYMBOL => new ArrayType($line),
                 default => new DefaultType($line),
             };
 

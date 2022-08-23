@@ -30,11 +30,6 @@ class ActionType implements TypeInterface
     {
     }
 
-    public static function getSymbol(): string
-    {
-        return self::SYMBOL;
-    }
-
     public function __toString(): string
     {
         return __CLASS__ . ' : ' . self::SYMBOL . $this->length . ' - ' . $this->getValue();
