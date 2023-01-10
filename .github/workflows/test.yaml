@@ -17,6 +17,7 @@ jobs:
       matrix:
         include:
           - php-version: '8.1'
+          - php-version: '8.2'
     services:
       skytable:
         image: skytable/sdb:v0.7.5
@@ -51,9 +52,11 @@ jobs:
             composer install --no-interaction --prefer-dist
       -   name: Run tests
           run: vendor/bin/phpunit --coverage-clover=coverage.xml
+
       -   name: Upload coverage to Codecov
-          uses: codecov/codecov-action@v2
+          uses: codecov/codecov-action@v3
           with:
+            token: ${{ secrets.CODECOV_TOKEN }}
             files: ./coverage.xml
-            fail_ci_if_error: true
+            flags: unittests
             verbose: true
